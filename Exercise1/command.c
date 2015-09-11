@@ -15,8 +15,6 @@
  * RETURN: true if successful, false if not. Cmd object may be modified. 
  */
 bool parse_user_input (const char* input, Commands_t** cmd) {
-	
-	//TODO ERROR CHECK INCOMING PARAMETERS
 	if( !input || !cmd ){
 		return false;
 	}
@@ -49,9 +47,7 @@ bool parse_user_input (const char* input, Commands_t** cmd) {
  * RETURN: Cmd object may be modified.
  */
 void destroy_commands(Commands_t** cmd) {
-
-	//TODO ERROR CHECK INCOMING PARAMETERS
-	if(!cmd || !(*cmd)){
+	if( !cmd ){
 		return;
 	}
 

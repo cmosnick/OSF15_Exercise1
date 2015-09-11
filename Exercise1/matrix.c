@@ -33,13 +33,12 @@ void load_matrix (Matrix_t* m, unsigned int* data);
 bool create_matrix (Matrix_t** new_matrix, const char* name, const unsigned int rows,
 						const unsigned int cols) {
 
-	//TODO ERROR CHECK INCOMING PARAMETERS
-	*new_matrix = calloc(1,sizeof(Matrix_t));
-	if (!(*new_matrix) || !name || rows<=1 || cols <=1) {
+	if (!new_matrix || !name || rows < 0 || cols < 0) {
 		return false;
 	}
+	*new_matrix = calloc( 1, sizeof(Matrix_t) );
 
-	(*new_matrix)->data = calloc(rows * cols,sizeof(unsigned int));
+	(*new_matrix)->data = calloc(rows * cols, sizeof(unsigned int));
 	if (!(*new_matrix)->data) {
 		return false;
 	}
@@ -60,9 +59,7 @@ bool create_matrix (Matrix_t** new_matrix, const char* name, const unsigned int 
  * RETURN: Matrix may be modified.
  */
 void destroy_matrix (Matrix_t** m) {
-
-	//TODO ERROR CHECK INCOMING PARAMETERS
-	if( !m || !(*m) ){
+	if( !m ){
 		return;
 	}
 
@@ -77,15 +74,12 @@ void destroy_matrix (Matrix_t** m) {
  * INPUTS: two matrices
  * RETURN: True if matrices are equal, False if they are not equal.
  */
-bool equal_matrices (Matrix_t* a, Matrix_t* b) {
-
-	//TODO ERROR CHECK INCOMING PARAMETERS
-	
+bool equal_matrices (Matrix_t* a, Matrix_t* b) {	
 	if (!a || !b || !a->data || !b->data) {
-		return false;	
+		return false;
 	}
 
-	int result = memcmp(a->data,b->data, sizeof(unsigned int) * a->rows * a->cols);
+	int result = memcmp(a->data, b->data, sizeof(unsigned int) * a->rows * a->cols);
 	if (result == 0) {
 		return true;
 	}
@@ -98,9 +92,6 @@ bool equal_matrices (Matrix_t* a, Matrix_t* b) {
  * RETURN: True if duplication successful, False if not.
  */
 bool duplicate_matrix (Matrix_t* src, Matrix_t* dest) {
-
-	//TODO ERROR CHECK INCOMING PARAMETERS
-
 	if (!src || !dest || !src->data ) {
 		return false;
 	}
@@ -119,8 +110,6 @@ bool duplicate_matrix (Matrix_t* src, Matrix_t* dest) {
  *		   Matrix may be modified.
  */
 bool bitwise_shift_matrix (Matrix_t* a, char direction, unsigned int shift) {
-	
-	//TODO ERROR CHECK INCOMING PARAMETERS
 	if (!a || ( direction != 'l' && direction != 'r' ) || shift < 0) {
 		return false;
 	}
@@ -133,7 +122,6 @@ bool bitwise_shift_matrix (Matrix_t* a, char direction, unsigned int shift) {
 				a->data[i * a->cols + j] = a->data[i * a->cols + j] << shift;
 			}
 		}
-
 	}
 	else {
 		unsigned int i = 0;
@@ -156,7 +144,7 @@ bool bitwise_shift_matrix (Matrix_t* a, char direction, unsigned int shift) {
 bool add_matrices (Matrix_t* a, Matrix_t* b, Matrix_t* c) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
-	if ( !a || (a->rows != b->rows && a->cols != b->cols)) {
+	if ( !a || ( a->rows != b->rows && a->cols != b->cols )) {
 		return false;
 	}
 
@@ -174,9 +162,7 @@ bool add_matrices (Matrix_t* a, Matrix_t* b, Matrix_t* c) {
  * RETURN: none.  Matrix will be displayed to user.  Matrix will not be modified.
  */
 void display_matrix (Matrix_t* m) {
-	
-	//TODO ERROR CHECK INCOMING PARAMETERS
-	if (!m || !m->name || m->rows < 1 || m->cols <1) {
+	if (!m || !m->name || m->rows < 0 || m->cols < 0 || !m->data ) {
 		return;
 	}
 
@@ -199,9 +185,7 @@ void display_matrix (Matrix_t* m) {
  *			
  */
 bool read_matrix (const char* matrix_input_filename, Matrix_t** m) {
-	
-	//TODO ERROR CHECK INCOMING PARAMETERS
-	if ( !m || !(*m) || !(*matrix_input_filename)) {
+	if ( !m || !(*matrix_input_filename)) {
 		return false;
 	}
 
@@ -334,12 +318,10 @@ bool read_matrix (const char* matrix_input_filename, Matrix_t** m) {
 
 /* 
  * PURPOSE: Write a matrix into a binary file
- * INPUTS: filename, matrix ot load
+ * INPUTS: filename, matrix to load
  * RETURN: True if write is sucessful, false if unsucessful.
  */
 bool write_matrix (const char* matrix_output_filename, Matrix_t* m) {
-	
-	//TODO ERROR CHECK INCOMING PARAMETERS
 	if ( !m || !matrix_output_filename ) {
 		return false;
 	}
@@ -413,9 +395,7 @@ bool write_matrix (const char* matrix_output_filename, Matrix_t* m) {
  * RETURN: True if sucessful, false is unsucessful.  Matrix data may be modified.
  */
 bool random_matrix(Matrix_t* m, unsigned int start_range, unsigned int end_range) {
-	
-	//TODO ERROR CHECK INCOMING PARAMETERS
-	if ( !m || start_range > end_range ) {
+		if ( !m || start_range > end_range ) {
 		return false;
 	}
 
@@ -435,9 +415,7 @@ bool random_matrix(Matrix_t* m, unsigned int start_range, unsigned int end_range
  * RETURN: nothing. matrix data may be modified.
  */
 void load_matrix (Matrix_t* m, unsigned int* data) {
-	
-	//TODO ERROR CHECK INCOMING PARAMETERS
-	if (!m || !data) {
+	if ( !m || !data ) {
 		return;
 	}
 
@@ -447,12 +425,10 @@ void load_matrix (Matrix_t* m, unsigned int* data) {
 /* 
  * PURPOSE: To add a matrix to the array of matrices
  * INPUTS: matrix array, matrix ot add to array, total number of matrices
- * RETURN: -1 if insert in unsucessful.  Position of inserted matrix if sucessful.
+ * RETURN: -1 if insert is unsucessful.  Position of inserted matrix if sucessful.
  */
 unsigned int add_matrix_to_array (Matrix_t** mats, Matrix_t* new_matrix, unsigned int num_mats) {
-	
-	//TODO ERROR CHECK INCOMING PARAMETERS
-	if (!mats || !new_matrix) {
+	if (!mats || !new_matrix || num_mats < 0) {
 		return -1;
 	}
 
