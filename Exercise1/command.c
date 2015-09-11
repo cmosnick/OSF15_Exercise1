@@ -9,10 +9,17 @@
 #define MAX_CMD_LEN 25
 
 
-	//TODO FUNCTION COMMENT
+/* 
+ * PURPOSE: Parse user input into separate commands
+ * INPUTS: user line, command structure to parse line into
+ * RETURN: true if successful, false if not. Cmd object may be modified. 
+ */
 bool parse_user_input (const char* input, Commands_t** cmd) {
 	
 	//TODO ERROR CHECK INCOMING PARAMETERS
+	if( !input || !cmd ){
+		return false;
+	}
 
 	char *string = strdup(input);
 	
@@ -36,11 +43,18 @@ bool parse_user_input (const char* input, Commands_t** cmd) {
 	return true;
 }
 
-	//TODO FUNCTION COMMENT
+/* 
+ * PURPOSE: To destroy the commands in the cmd object
+ * INPUTS: Object holding commands
+ * RETURN: Cmd object may be modified.
+ */
 void destroy_commands(Commands_t** cmd) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
-	
+	if(!cmd || !(*cmd)){
+		return;
+	}
+
 	for (int i = 0; i < (*cmd)->num_cmds; ++i) {
 		free((*cmd)->cmds[i]);
 	}

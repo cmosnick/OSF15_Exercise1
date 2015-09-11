@@ -5,8 +5,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <time.h>
-
-#include<readline/readline.h>
+#include <readline/readline.h>
 
 #include "command.h"
 #include "matrix.h"
@@ -18,12 +17,17 @@ unsigned int find_matrix_given_name (Matrix_t** mats, unsigned int num_mats,
 // TODO complete the defintion of this function. 
 void destroy_remaining_heap_allocations(Matrix_t **mats, unsigned int num_mats);
 
-	//TODO FUNCTION COMMENT
+/* 
+ * PURPOSE: Begin executuon of program, read and process user input, exit program
+ * INPUTS: Argument count, and array of args
+ * RETURN: 0 for normal completion
+ */
 int main (int argc, char **argv) {
 	srand(time(NULL));		
 	char *line = NULL;
 	Commands_t* cmd;
 
+	//Array of matrix pointers
 	Matrix_t *mats[10];
 	memset(&mats,0, sizeof(Matrix_t*) * 10); // IMPORTANT C FUNCTION TO LEARN
 
@@ -60,10 +64,16 @@ int main (int argc, char **argv) {
 	return 0;	
 }
 
-	//TODO FUNCTION COMMENT
+/* 
+ * PURPOSE: To check and run the user-entered commands
+ * INPUTS: User inputter commands, array of matrices, and the numebr of matrices
+ * RETURN: None.  Input parameters may be modified.
+ */
 void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 	//TODO ERROR CHECK INCOMING PARAMETERS
-
+	if( !cmd || !mats || num_mats < 0){
+		return;
+	}
 
 	/*Parsing and calling of commands*/
 	if (strncmp(cmd->cmds[0],"display",strlen("display") + 1) == 0
@@ -195,9 +205,16 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 
 }
 
-	//TODO FUNCTION COMMENT
+/* 
+ * PURPOSE: To find a matrix with the given name in the matrix array
+ * INPUTS: Matrix array, numbe rof matrices, name to search for
+ * RETURN: Index of matrix if found.  -1 if not successful.
+ */
 unsigned int find_matrix_given_name (Matrix_t** mats, unsigned int num_mats, const char* target) {
 	//TODO ERROR CHECK INCOMING PARAMETERS
+	if( !mats || num_mats < 0 || !target ){
+		return -1;
+	}
 
 	for (int i = 0; i < num_mats; ++i) {
 		if (strncmp(mats[i]->name,target,strlen(mats[i]->name)) == 0) {
@@ -207,10 +224,21 @@ unsigned int find_matrix_given_name (Matrix_t** mats, unsigned int num_mats, con
 	return -1;
 }
 
-	//TODO FUNCTION COMMENT
+/* 
+ * PURPOSE: to destroy 
+ * INPUTS: 
+ * RETURN:
+ */
 void destroy_remaining_heap_allocations(Matrix_t **mats, unsigned int num_mats) {
 	
 	//TODO ERROR CHECK INCOMING PARAMETERS
+	if(!mats || !(*mats) || num_mats<0){
+		return;
+	}
 
 	// COMPLETE MISSING MEMORY CLEARING HERE
+	int i =0;
+	for(i = 0 ; i< num_mats ; i++){
+
+	}
 }
