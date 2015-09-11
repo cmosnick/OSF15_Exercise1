@@ -63,7 +63,7 @@ bool create_matrix (Matrix_t** new_matrix, const char* name, const unsigned int 
  * RETURN: Matrix may be modified.
  */
 void destroy_matrix (Matrix_t** m) {
-	if( !m ){
+	if( !m || !(*m) ){
 		return;
 	}
 
@@ -146,8 +146,6 @@ bool bitwise_shift_matrix (Matrix_t* a, char direction, unsigned int shift) {
  * RETURN: False if unsucessful, True if sucessful.  Matrix c may be modified.
  */
 bool add_matrices (Matrix_t* a, Matrix_t* b, Matrix_t* c) {
-
-	//TODO ERROR CHECK INCOMING PARAMETERS
 	if ( !a || ( a->rows != b->rows && a->cols != b->cols )) {
 		return false;
 	}

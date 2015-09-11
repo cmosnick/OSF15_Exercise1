@@ -212,6 +212,9 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 	else if (strncmp(cmd->cmds[0], "random", strlen("random") + 1) == 0
 		&& cmd->num_cmds == 4) {
 		int mat1_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[1]);
+		if(mat1_idx == -1){
+			return;
+		}
 		const unsigned int start_range = atoi(cmd->cmds[2]);
 		const unsigned int end_range = atoi(cmd->cmds[3]);
 		if( !(random_matrix(mats[mat1_idx],start_range, end_range)) ){
@@ -236,7 +239,7 @@ unsigned int find_matrix_given_name (Matrix_t** mats, unsigned int num_mats, con
 		return -1;
 	}
 
-	for (int i = 0; i < num_mats; ++i) {
+	for (int i = 0; i < num_mats && mats[i] ; ++i) {
 		if (strncmp(mats[i]->name,target,strlen(mats[i]->name)) == 0) {
 			return i;
 		}
@@ -254,16 +257,14 @@ void destroy_remaining_heap_allocations(Matrix_t **mats, unsigned int num_mats) 
 		return;
 	}
 
-	// TODO: COMPLETE MISSING MEMORY CLEARING HERE
 	int i = 0;
+	Matrix_t *clr_ptr = NULL;
 	while( i < num_mats ){
-		Matrix_t *clr_ptr = *mats;
-		*mats += 1;
-		free( (clr_ptr)->data );
-		free( (clr_ptr)->name );
-		free( (clr_ptr) );
+		clr_ptr = mats[i];
+		if( clr_ptr != NULL){
+			destroy_matrix(&clr_ptr);	
+		}
 		i ++;
 	}
-	free(mats);
 	return;
 }
