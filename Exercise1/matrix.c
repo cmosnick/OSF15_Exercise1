@@ -36,21 +36,25 @@ bool create_matrix (Matrix_t** new_matrix, const char* name, const unsigned int 
 	if (!new_matrix || !name || rows < 0 || cols < 0) {
 		return false;
 	}
+	free(*new_matrix);
 	*new_matrix = calloc( 1, sizeof(Matrix_t) );
 
 	(*new_matrix)->data = calloc(rows * cols, sizeof(unsigned int));
 	if (!(*new_matrix)->data) {
+		free( (*new_matrix)->data);
+		free( (*new_matrix) );
 		return false;
 	}
 	(*new_matrix)->rows = rows;
 	(*new_matrix)->cols = cols;
 	unsigned int len = strlen(name) + 1; 
 	if (len > MATRIX_NAME_LEN) {
+		free( (*new_matrix)->data);
+		free( (*new_matrix) );
 		return false;
 	}
 	strncpy((*new_matrix)->name,name,len);
 	return true;
-
 }
 
 /* 

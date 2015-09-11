@@ -14,7 +14,6 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats);
 unsigned int find_matrix_given_name (Matrix_t** mats, unsigned int num_mats, 
 			const char* target);
 
-// TODO complete the defintion of this function. 
 void destroy_remaining_heap_allocations(Matrix_t **mats, unsigned int num_mats);
 
 /* 
@@ -257,10 +256,13 @@ void destroy_remaining_heap_allocations(Matrix_t **mats, unsigned int num_mats) 
 
 	// TODO: COMPLETE MISSING MEMORY CLEARING HERE
 	int i = 0;
-	for( ; i < num_mats ; i++ ){
-		free( (*mats + i)->data );
-		free( (*mats + i)->name );
-		//free( (*mats + i) );
+	while( i < num_mats ){
+		Matrix_t *clr_ptr = *mats;
+		*mats += 1;
+		free( (clr_ptr)->data );
+		free( (clr_ptr)->name );
+		free( (clr_ptr) );
+		i ++;
 	}
 	free(mats);
 	return;
